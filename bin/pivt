@@ -24,45 +24,36 @@ program_desc 'Describe your application here'
 
 version Pivt::VERSION
 
-desc 'Describe some switch here'
-switch [:s,:switch]
+desc 'Username'
+flag [:u,:username]
 
-desc 'Describe some flag here'
-default_value 'the default'
-arg_name 'The name of the argument'
-flag [:f,:flagname]
+desc 'Password'
+flag [:p,:password]
 
-desc 'Describe list here'
+desc 'Project'
+flag :project
+
+desc 'List your work on the current project'
 arg_name 'Describe arguments to list here'
 command :list do |c|
-  c.desc 'Describe a switch to list'
-  c.switch :s
-
-  c.desc 'Describe a flag to list'
-  c.default_value 'default'
-  c.flag :f
   c.action do |global_options,options,args|
-
-    response = HTTParty.get('https://www.pivotaltracker.com/services/v3/tokens/active', {:basic_auth => {:username => 'andrew@gtrot.com', :password => ''}})
-    #p response.inspect
+    response = HTTParty.get('https://www.pivotaltracker.com/services/v3/tokens/active', {:basic_auth => {:username => global_options[:u], :password => global_options[:p]}})
 
     response = HTTParty.get('http://www.pivotaltracker.com/services/v3/projects/523551/stories?filter=mywork%3AAndrew%20Terris', {:headers => {'X-TrackerToken' => response['token']['guid']}})
-
     stories = response['stories']
-
-    colors = {
-      :started => :green,
-      :unstarted => :white,
-      :unscheduled => :white
-    }
 
     count = 0
     stories.each do |story|
-        puts sprintf(" #{count}: ".color(colors[story['current_state'].to_sym]) + "#{story['name']}")
-        count += 1
+      case story['current_state']
+      when 'started'
+        puts sprintf(" #{count}: #{story['id']} - #{story['name']}".color(:green))
+      when 'unstarted'
+        puts sprintf(" #{count}: #{story['id']} - #{story['name']}")
+      when 'unscheduled'
+      else
+      end
+      count += 1
     end
-
-    #p stories['stories'][0].keys.inspect
   end
 end
 
