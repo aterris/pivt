@@ -14,6 +14,9 @@ $: << File.expand_path(File.dirname(File.realpath(__FILE__)) + '/../lib')
 require 'rubygems'
 require 'gli'
 require 'pivt_version'
+require 'open-uri'
+require 'httparty'
+require 'rainbow'
 
 include GLI
 
@@ -40,10 +43,26 @@ command :list do |c|
   c.flag :f
   c.action do |global_options,options,args|
 
-    # Your command logic here
-     
-    # If you have any errors, just raise them
-    # raise "that command made no sense"
+    response = HTTParty.get('https://www.pivotaltracker.com/services/v3/tokens/active', {:basic_auth => {:username => 'andrew@gtrot.com', :password => ''}})
+    #p response.inspect
+
+    response = HTTParty.get('http://www.pivotaltracker.com/services/v3/projects/523551/stories?filter=mywork%3AAndrew%20Terris', {:headers => {'X-TrackerToken' => response['token']['guid']}})
+
+    stories = response['stories']
+
+    colors = {
+      :started => :green,
+      :unstarted => :white,
+      :unscheduled => :white
+    }
+
+    count = 0
+    stories.each do |story|
+        puts sprintf(" #{count}: ".color(colors[story['current_state'].to_sym]) + "#{story['name']}")
+        count += 1
+    end
+
+    #p stories['stories'][0].keys.inspect
   end
 end
 
