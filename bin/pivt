@@ -40,7 +40,7 @@ your current and scheduled tasks only.  A filter can be passed as
 an argument to return different sets of tasks.
 """
 arg_name 'filter'
-command :list do |c|
+command [:list, :l, :ls, :me, :mine] do |c|
   c.action do |global_options,options,args|
     response = HTTParty.get('https://www.pivotaltracker.com/services/v3/tokens/active', {:basic_auth => {:username => global_options[:u], :password => global_options[:p]}})
 
