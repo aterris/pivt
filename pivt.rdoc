@@ -1,0 +1,5 @@
+= pivt
+
+Generate this with
+    pivt rdoc
+After you have described your command line interface
