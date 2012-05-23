@@ -36,23 +36,7 @@ an argument to return different sets of tasks.
 arg_name 'filter'
 command [:list, :l, :ls, :me, :mine] do |c|
   c.action do |global_options,options,args|
-
-    PivotalTracker::Client.token global_options[:u], global_options[:p]
-    @project = PivotalTracker::Project.find(global_options[:project])
-    @tasks = @project.stories.all(:mywork => 'Andrew Terris')
-
-    count = 0
-    @tasks.each do |task|
-      case task.current_state
-      when 'started'
-        puts sprintf(" #{count}: #{task.id} - #{task.name}".color(:green))
-      when 'unstarted'
-        puts sprintf(" #{count}: #{task.id} - #{task.name}")
-      when 'unscheduled'
-      else
-      end
-      count += 1
-    end
+    Pivt::Command.list global_options, options, args
   end
 end
 
