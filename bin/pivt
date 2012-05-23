@@ -38,11 +38,18 @@ an argument to return different sets of tasks.
 arg_name 'filter'
 command [:list, :l, :ls, :show, :s] do |c|
   c.action do |global_options,options,args|
-    Pivt::Command.list global_options, options, args
+    @project.list_tasks
+  end
+end
+
+command [:finish, :f, :close, :c] do |c|
+  c.action do |global_options,options,args|
+    @project.finish_task(args[0])
   end
 end
 
 pre do |global,command,options,args|
+  @project = Pivt::Project.new global[:u], global[:p], global[:project]
   true
 end
 
