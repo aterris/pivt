@@ -1,5 +1,3 @@
-require 'rubygems'
-require 'gli'
 require 'rainbow'
 require 'pivotal-tracker'
 
