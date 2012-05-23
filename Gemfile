@@ -1,5 +1,5 @@
 source :rubygems
 
-gem 'httparty'
 gem 'rainbow'
+gem 'pivotal-tracker'
 gemspec

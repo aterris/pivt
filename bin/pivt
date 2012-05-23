@@ -14,9 +14,8 @@ $: << File.expand_path(File.dirname(File.realpath(__FILE__)) + '/../lib')
 require 'rubygems'
 require 'gli'
 require 'pivt_version'
-require 'open-uri'
-require 'httparty'
 require 'rainbow'
+require 'pivotal-tracker'
 
 include GLI
 
@@ -42,18 +41,18 @@ an argument to return different sets of tasks.
 arg_name 'filter'
 command [:list, :l, :ls, :me, :mine] do |c|
   c.action do |global_options,options,args|
-    response = HTTParty.get('https://www.pivotaltracker.com/services/v3/tokens/active', {:basic_auth => {:username => global_options[:u], :password => global_options[:p]}})
 
-    response = HTTParty.get('http://www.pivotaltracker.com/services/v3/projects/523551/stories?filter=mywork%3AAndrew%20Terris', {:headers => {'X-TrackerToken' => response['token']['guid']}})
-    stories = response['stories']
+    PivotalTracker::Client.token global_options[:u], global_options[:p]
+    @project = PivotalTracker::Project.find(global_options[:project])
+    @tasks = @project.stories.all(:mywork => 'Andrew Terris')
 
     count = 0
-    stories.each do |story|
-      case story['current_state']
+    @tasks.each do |task|
+      case task.current_state
       when 'started'
-        puts sprintf(" #{count}: #{story['id']} - #{story['name']}".color(:green))
+        puts sprintf(" #{count}: #{task.id} - #{task.name}".color(:green))
       when 'unstarted'
-        puts sprintf(" #{count}: #{story['id']} - #{story['name']}")
+        puts sprintf(" #{count}: #{task.id} - #{task.name}")
       when 'unscheduled'
       else
       end
