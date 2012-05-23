@@ -1,7 +1,6 @@
-module Pivt
-  module Command
-    def self.list global_options, options, args
-      PivotalTracker::Client.token global_options[:u], global_options[:p]
+module Pivt::Command
+  def self.list global_options, options, args
+    PivotalTracker::Client.token global_options[:u], global_options[:p]
     @project = PivotalTracker::Project.find(global_options[:project])
     @tasks = @project.stories.all(:mywork => 'Andrew Terris')
 
@@ -16,7 +15,6 @@ module Pivt
       else
       end
       count += 1
-    end
     end
   end
 end
