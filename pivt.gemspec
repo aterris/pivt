@@ -3,15 +3,15 @@ require File.join([File.dirname(__FILE__),'lib','pivt_version.rb'])
 spec = Gem::Specification.new do |s| 
   s.name = 'pivt'
   s.version = Pivt::VERSION
-  s.author = 'Your Name Here'
-  s.email = 'your@email.address.com'
-  s.homepage = 'http://your.website.com'
+  s.author = 'Andrew Terris'
+  s.email = 'atterris@gmail.com'
+  s.homepage = 'http://andrewterris.com'
   s.platform = Gem::Platform::RUBY
   s.summary = 'A description of your project'
 # Add your other files here if you make them
   s.files = %w(
 bin/pivt
-lib/pivt_version.rb
+lib/pivt.rb
   )
   s.require_paths << 'lib'
   s.has_rdoc = true
