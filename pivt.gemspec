@@ -7,7 +7,7 @@ spec = Gem::Specification.new do |s|
   s.email = 'atterris@gmail.com'
   s.homepage = 'http://andrewterris.com'
   s.platform = Gem::Platform::RUBY
-  s.summary = 'A description of your project'
+  s.summary = 'Pivotal Tracker CLI for getting shit done'
 # Add your other files here if you make them
   s.files = %w(
 bin/pivt

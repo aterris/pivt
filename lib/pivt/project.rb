@@ -20,12 +20,27 @@ class Pivt::Project
     end
   end
 
-  def finish_task id
-    task = find(id)
-    task.update(:current_state => 'finished')
+  def start_task id
+    find_task(id).update(:current_state => 'started')
   end
 
-  def find id
+  def finish_task id
+    find_task(id).update(:current_state => 'finished')
+  end
+
+  def deliver_task id
+    find_task(id).update(:current_state => 'delivered')
+  end
+
+  def accept_task id
+    find_task(id).update(:current_state => 'accepeted')
+  end
+
+  def reject_task id
+    find_task(id).update(:current_state => 'rejected')
+  end
+
+  def find_task id
     @project.stories.find(id)
   end
 

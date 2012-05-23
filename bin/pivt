@@ -36,15 +36,27 @@ your current and scheduled tasks only.  A filter can be passed as
 an argument to return different sets of tasks.
 """
 arg_name 'filter'
-command [:list, :l, :ls, :show, :s] do |c|
+command [:list, :l, :ls] do |c|
   c.action do |global_options,options,args|
     @project.list_tasks
   end
 end
 
-command [:finish, :f, :close, :c] do |c|
+command [:open, :o, :start] do |c|
+  c.action do |global_options,options,args|
+    @project.start_task(args[0])
+  end
+end
+
+command [:close, :c, :finish] do |c|
   c.action do |global_options,options,args|
     @project.finish_task(args[0])
+  end
+end
+
+command [:ship, :s, :deliver] do |c|
+  c.action do |global_options,options,args|
+    @project.deliver_task(args[0])
   end
 end
 
