@@ -11,12 +11,7 @@ unless File.respond_to? :realpath
   end
 end
 $: << File.expand_path(File.dirname(File.realpath(__FILE__)) + '/../lib')
-require 'rubygems'
-require 'gli'
-require 'pivt_version'
-require 'rainbow'
-require 'pivotal-tracker'
-
+require 'pivt'
 include GLI
 
 program_desc 'Pivt is a Pivotal Tracker CLI for getting shit done'
