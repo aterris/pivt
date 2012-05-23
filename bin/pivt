@@ -16,7 +16,7 @@ require 'gli'
 require 'pivt'
 include GLI
 
-program_desc 'Pivt is a Pivotal Tracker CLI for getting shit done'
+program_desc 'A Pivotal Tracker CLI for getting shit done'
 
 version Pivt::VERSION
 
