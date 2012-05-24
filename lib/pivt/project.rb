@@ -5,19 +5,18 @@ class Pivt::Project
     @project = PivotalTracker::Project.find(project_id)
   end
 
-  def list_tasks
-    count = 0
-    tasks.each do |task|
-      case task.current_state
-      when 'started'
-        puts " #{count}: #{task.id} - #{task.name}".color(:green)
-      when 'unstarted'
-        puts " #{count}: #{task.id} - #{task.name}"
-      when 'unscheduled'
-      else
-      end
-      count += 1
+  def tasks
+    @project.stories.all(:mywork => 'Andrew Terris')
+  end
+
+  def find_task id
+    if id < 10
+      task = tasks()[id]
+    else
+      task = @project.stories.find(id)
     end
+
+    task
   end
 
   def start_task id
@@ -40,12 +39,27 @@ class Pivt::Project
     find_task(id).update(:current_state => 'rejected')
   end
 
-  def find_task id
-    @project.stories.find(id)
+  def print_tasks
+    count = 0
+    tasks.each do |task|
+      print_task(task, count)
+      count += 1
+    end
   end
 
-  def tasks
-    @project.stories.all(:mywork => 'Andrew Terris')
+  def print_task(task, index)
+    case task.current_state
+    when 'started'
+      puts "\n"
+      puts "  #{index}. #{task.name} #{task.id}".color(:green) 
+      puts "       Lorem ipsum dolor sit amet.  That is all i know by heart"
+      puts "       Lorem ipsum dolor sit amet.  That is all i know by heart"
+      puts "\n"
+    when 'unstarted'
+      puts " #{index}: #{task.id} - #{task.name}"
+    when 'unscheduled'
+    else
+    end
   end
 
 end

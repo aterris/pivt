@@ -38,7 +38,7 @@ an argument to return different sets of tasks.
 arg_name 'filter'
 command [:list, :l, :ls] do |c|
   c.action do |global_options,options,args|
-    @project.list_tasks
+    @project.print_tasks
   end
 end
 
