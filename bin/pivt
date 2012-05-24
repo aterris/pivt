@@ -17,8 +17,9 @@ require 'pivt'
 include GLI
 
 program_desc 'A Pivotal Tracker CLI for getting shit done'
-
 version Pivt::VERSION
+
+config_file File.join(ENV['HOME'],'.pivt.rc.yaml')
 
 desc 'Username'
 flag [:u,:username]
@@ -39,6 +40,12 @@ arg_name 'filter'
 command [:list, :l, :ls] do |c|
   c.action do |global_options,options,args|
     @project.print_tasks
+  end
+end
+
+command [:create, :c] do |c|
+  c.action do |global_options,options,args|
+    @project.create_task()
   end
 end
 

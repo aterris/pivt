@@ -19,6 +19,9 @@ class Pivt::Project
     task
   end
 
+  def create_task
+  end
+
   def start_task id
     find_task(id).update(:current_state => 'started')
   end
@@ -56,7 +59,9 @@ class Pivt::Project
       puts "       Lorem ipsum dolor sit amet.  That is all i know by heart"
       puts "\n"
     when 'unstarted'
-      puts " #{index}: #{task.id} - #{task.name}"
+      puts "  #{index}. #{task.name} #{task.id}"
+      puts "\n"
+    when 'unstarted'
     when 'unscheduled'
     else
     end
