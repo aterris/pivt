@@ -10,8 +10,8 @@ class Pivt::Project
   end
 
   def find_task id
-    if id < 10
-      task = tasks()[id]
+    if Integer(id) < 10
+      task = tasks()[Integer(id)]
     else
       task = @project.stories.find(id)
     end
@@ -43,10 +43,8 @@ class Pivt::Project
   end
 
   def print_tasks
-    count = 0
-    tasks.each do |task|
-      print_task(task, count)
-      count += 1
+    tasks.each_with_index do |task, index|
+      print_task(task, index)
     end
   end
 
@@ -54,12 +52,15 @@ class Pivt::Project
     case task.current_state
     when 'started'
       puts "\n"
-      puts "  #{index}. #{task.name} #{task.id}".color(:green) 
-      puts "       Lorem ipsum dolor sit amet.  That is all i know by heart"
-      puts "       Lorem ipsum dolor sit amet.  That is all i know by heart"
+      puts "  #{index}. #{task.name}".color(:green)
+      unless task.description.nil?
+        task.description.scan(/.{72}/).each do |output|
+          puts "      " + output
+        end
+      end
       puts "\n"
     when 'unstarted'
-      puts "  #{index}. #{task.name} #{task.id}"
+      puts "  #{index}. #{task.name}"
       puts "\n"
     when 'unstarted'
     when 'unscheduled'
