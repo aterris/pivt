@@ -1,6 +1,1 @@
 = pivt
-
-Describe your project here
-
-:include:pivt.rdoc
-
