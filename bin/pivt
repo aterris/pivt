@@ -44,13 +44,19 @@ end
 
 command [:new, :n] do |c|
   c.action do |global_options,options,args|
-    @project.create_task
+    @project.create_task(args[0])
   end
 end
 
 command [:open, :o, :start] do |c|
   c.action do |global_options,options,args|
     @project.start_task(args[0])
+  end
+end
+
+command [:unopen, :u] do |c|
+  c.action do |global_options,options,args|
+    @project.unstart_task(args[0])
   end
 end
 

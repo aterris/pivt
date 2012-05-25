@@ -19,11 +19,19 @@ class Pivt::Project
     task
   end
 
-  def create_task
+  def create_task name
+    @project.stories.create(:name => name, :current_state => 'unstarted', :owned_by => 'Andrew Terris')
+  end
+
+  def move_task id, position
   end
 
   def start_task id
     find_task(id).update(:current_state => 'started')
+  end
+
+  def unstart_task id
+    find_task(id).update(:current_state => 'unstarted')
   end
 
   def finish_task id
