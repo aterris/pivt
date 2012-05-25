@@ -54,7 +54,7 @@ command [:open, :o, :start] do |c|
   end
 end
 
-command [:unopen, :u] do |c|
+command [:unopen, :u, :unstart] do |c|
   c.action do |global_options,options,args|
     @project.unstart_task(args[0])
   end
@@ -72,6 +72,29 @@ command [:ship, :s, :deliver] do |c|
   end
 end
 
+command [:accept, :a] do |c|
+  c.action do |global_options,options,args|
+    @project.accept_task(args[0])
+  end
+end
+
+command [:reject, :r] do |c|
+  c.action do |global_options,options,args|
+    @project.reject_task(args[0])
+  end
+end
+
+command [:push] do |c|
+  c.action do |global_options,options,args|
+    @project.push_task(args[0])
+  end
+end
+
+command [:pop] do |c|
+  c.action do |global_options,options,args|
+    @project.pop_task(args[0])
+  end
+end
 pre do |global,command,options,args|
   @project = Pivt::Project.new global[:u], global[:p], global[:project]
   true

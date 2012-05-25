@@ -26,6 +26,12 @@ class Pivt::Project
   def move_task id, position
   end
 
+  def pop_task id
+  end
+
+  def push_task id
+  end
+
   def start_task id
     find_task(id).update(:current_state => 'started')
   end
