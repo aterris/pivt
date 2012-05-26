@@ -13,6 +13,8 @@ end
 $: << File.expand_path(File.dirname(File.realpath(__FILE__)) + '/../lib')
 require 'rubygems'
 require 'gli'
+require 'rainbow'
+require 'pivotal-tracker'
 require 'pivt'
 include GLI
 
@@ -43,8 +45,24 @@ command [:list, :l, :ls] do |c|
 end
 
 command [:new, :n] do |c|
+
+  c.desc 'description'
+  c.flag [:description, :d]
+
+  c.desc 'estimate'
+  c.flag [:estimate, :e]
+
+  c.desc 'task type'
+  c.flag [:type, :t]
+
+  c.desc 'position'
+  c.flag [:position, :p]
+
+  c.desc 'open task'
+  c.switch [:open, :o, :start, :s]
+
   c.action do |global_options,options,args|
-    @project.create_task(args[0])
+    @project.create_task(args[0], options)
   end
 end
 
@@ -96,7 +114,7 @@ command [:pop] do |c|
   end
 end
 
-command [:movei, :m] do |c|
+command [:move, :m] do |c|
   c.action do |global_options,options,args|
     @project.move_task(args[0], args[1])
   end

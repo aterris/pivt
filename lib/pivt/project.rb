@@ -19,8 +19,16 @@ class Pivt::Project
     task
   end
 
-  def create_task name
-    @project.stories.create(:name => name, :current_state => 'unstarted', :owned_by => 'Andrew Terris')
+  def create_task name, options
+    task = {
+      :name => name,
+      :description => options[:description],
+      :estimate => options[:estimate],
+      :story_type => options[:type],
+      :current_state => ( options[:open] ? 'started' : 'unstarted' ),
+      :owned_by => 'Andrew Terris'
+    }
+    @project.stories.create(task)
   end
 
   def move_task id, position
