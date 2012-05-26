@@ -84,8 +84,6 @@ class Pivt::Project
     when 'unstarted'
       puts "  #{index}. #{task.name}"
       puts "\n"
-    when 'unstarted'
-    else
     end
   end
 

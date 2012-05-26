@@ -32,6 +32,9 @@ flag [:p,:password]
 desc 'Project ID'
 flag :project
 
+desc 'Show all tasks'
+switch [:all, :a]
+
 desc 'List Pivotal tasks'
 long_desc """
 Lists Pivotal tasks for the current project.  By default it lists
