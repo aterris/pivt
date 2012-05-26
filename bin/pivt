@@ -32,6 +32,9 @@ flag [:p,:password]
 desc 'Token'
 flag [:token, :t]
 
+desc 'Name'
+flag [:name, :n]
+
 desc 'Project ID'
 flag :project
 
