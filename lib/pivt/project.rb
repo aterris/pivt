@@ -85,7 +85,6 @@ class Pivt::Project
       puts "  #{index}. #{task.name}"
       puts "\n"
     when 'unstarted'
-    when 'unscheduled'
     else
     end
   end
