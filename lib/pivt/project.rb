@@ -64,6 +64,10 @@ class Pivt::Project
     find_task(id).update(:current_state => 'rejected')
   end
 
+  def delete_task id
+
+  end
+
   def print_tasks
     tasks.each_with_index do |task, index|
       print_task(task, index)
