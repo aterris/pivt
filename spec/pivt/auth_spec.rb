@@ -23,31 +23,28 @@ describe Pivt::Auth do
 
   it 'can return authentication details' do
     Pivt::Auth.config({:token => 'usertoken', :name => 'Andrew Terris', :project_id => '5'})
-    Pivt::Auth.auth()[:token].should == 'usertoken'
-    Pivt::Auth.auth()[:name].should == 'Andrew Terris'
-    Pivt::Auth.auth()[:project_id].should == '5'
+    Pivt::Auth.token.should == 'usertoken'
+    Pivt::Auth.name.should == 'Andrew Terris'
+    Pivt::Auth.project_id.should == '5'
   end
 
   it 'can generate a token when given username and password' do
     Pivt::Auth.config({:username => 'atterris@gmail.com', :password => 'pwd', :name => 'Andrew Terris', :project_id => '5'})
-    Pivt::Auth.auth()[:token].should == 'usertoken'
+    Pivt::Auth.token.should == 'usertoken'
   end
   
   it 'requires a name' do
-    Pivt::Auth.config({:token => 'usertoken', :project_id => '5'})
-    lambda {Pivt::Auth.auth}.
+    lambda {Pivt::Auth.config({:token => 'usertoken', :project_id => '5'})}.
       should raise_error('No Name')
   end
 
   it 'requires a project id' do
-    Pivt::Auth.config({:token => 'usertoken', :name => 'Andrew Terris'})
-    lambda {Pivt::Auth.auth}.
+    lambda {Pivt::Auth.config({:token => 'usertoken', :name => 'Andrew Terris'})}.
       should raise_error('No Project ID')
   end
 
   it 'requires a token' do
-    Pivt::Auth.config({:name => 'Andrew Terris', :project_id => '5'})
-    lambda {Pivt::Auth.auth}.
+    lambda {Pivt::Auth.config({:name => 'Andrew Terris', :project_id => '5'})}.
       should raise_error('No Token')
   end
 

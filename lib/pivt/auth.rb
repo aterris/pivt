@@ -1,29 +1,34 @@
 module Pivt::Auth
-  @@api_url = 'https://www.pivotaltracker.com/services/v3/'
 
-  def self.config(options={})
-    @auth = {}
-    if !options[:token].nil?
-      @auth[:token] = options[:token]
-    elsif !options[:username].nil? && !options[:password].nil?
-      @auth[:token] = fetch_token(options[:username], options[:password])
+  class << self
+    attr_accessor :token, :name, :project_id, :api_url
+    API_URL = 'https://www.pivotaltracker.com/services/v3/'
+
+    def config(options={})
+      if !options[:token].nil?
+        @token = options[:token]
+      elsif !options[:username].nil? && !options[:password].nil?
+        @token = fetch_token(options[:username], options[:password])
+      else
+        @token = nil
+      end
+
+      @name = options[:name]
+      @project_id = options[:project_id]
+
+      valid?
     end
 
-    @auth[:name] = options[:name]
-    @auth[:project_id] = options[:project_id]
-  end
+    def fetch_token(username, password)
+      auth = {:username => username, :password => password}
+      response = HTTParty.get(API_URL + 'tokens/active', {:basic_auth => auth})
+      response['token']['guid']
+    end
 
-  def self.fetch_token(username, password)
-    auth = {:username => username, :password => password}
-    response = HTTParty.get(@@api_url + 'tokens/active', {:basic_auth => auth})
-    response['token']['guid']
+    def valid?
+      raise 'No Name' if @name.nil?
+      raise 'No Project ID' if @project_id.nil?
+      raise 'No Token' if @token.nil?
+    end
   end
-
-  def self.auth
-    raise 'No Name' if @auth[:name].nil?
-    raise 'No Project ID' if @auth[:project_id].nil?
-    raise 'No Token' if @auth[:token].nil?
-    @auth
-  end
-
 end
