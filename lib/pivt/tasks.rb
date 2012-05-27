@@ -31,7 +31,7 @@ class Pivt::Tasks
         :estimate => attributes[:estimate],
         :story_type => attributes[:type],
         :current_state => ( attributes[:open] ? 'started' : 'unstarted' ),
-        :owned_by => Pivt::Auth.name
+        :owned_by => Pivt::Auth.auth[:name]
       }
     }
 
