@@ -140,6 +140,10 @@ class Pivt::Tasks
     update(:current_state => 'rejected')
   end
 
+  def estimate score
+    update(:estimate => score)
+  end
+
   def meta
     # start, unstart, finish, deliver, accept, reject
   end
