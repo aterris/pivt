@@ -116,9 +116,6 @@ class Pivt::Tasks
   def push
   end
 
-  def estimate
-  end
-
   def start
     update(:current_state => 'started')
   end
