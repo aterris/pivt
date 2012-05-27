@@ -10,16 +10,17 @@ class Pivt::Tasks
     raise response['errors']['error'][0].inspect if(!response['errors'].nil? && !response['errors']['error'].nil?)
     raise response['message'].inspect if !response['message'].nil?
 
-    tasks = []
+    @tasks = []
     stories = response['stories'] || []
     stories.each_with_index do |story, index|
-      tasks.push self.new(story, {:pivt_id => index})
+      @tasks.push self.new(story, {:pivt_id => index})
     end
-    tasks
+    @tasks
   end
 
   def self.find(id)
-    self.all()[id.to_i]
+    @tasks ||= self.all
+    @tasks[id.to_i]
   end
 
   def self.create(attributes={})
