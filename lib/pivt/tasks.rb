@@ -22,11 +22,12 @@ class Pivt::Tasks
     response = HTTParty.get(@@api_url + "projects/#{Pivt::Auth.auth[:project_id]}/stories", {:query => query, :headers => headers})
 
     raise response['errors']['error'][0].inspect if(!response['errors'].nil? && !response['errors']['error'].nil?)
+    raise response['message'].inspect if !response['message'].nil?
 
     tasks = []
     stories = response['stories'] || []
     stories.each_with_index do |story, index|
-      tasks.push self.new(story, {:token => Pivt::Auth.auth[:token], :project_id => Pivt::Auth.project_id, :pivt_id => index})
+      tasks.push self.new(story, {:pivt_id => index})
     end
     tasks
   end
@@ -51,15 +52,13 @@ class Pivt::Tasks
     response = HTTParty.post(@@api_url + "projects/#{Pivt::Auth.project_id}/stories", {:headers => headers, :body => body.pivt_xml})
 
     raise response['errors']['error'][0].inspect if(!response['errors'].nil? && !response['errors']['error'].nil?)
+    raise response['message'].inspect if !response['message'].nil?
     
-    self.new(response['story'], {:token => Pivt::Auth.auth[:token], :project_id => Pivt::Auth.project_id})
+    self.new(response['story'])
   end
 
   def initialize(attributes={}, options={})
     set_attributes(attributes)
-
-    @token = options[:token]
-    @project_id = options[:project_id]
     @pivt_id = options[:pivt_id]
   end
 
@@ -79,6 +78,7 @@ class Pivt::Tasks
     response = HTTParty.put(@@api_url + "projects/#{Pivt::Auth.project_id}/stories/#{@id}", {:headers => headers, :body => body.pivt_xml})
 
     raise response['errors']['error'][0].inspect if(!response['errors'].nil? && !response['errors']['error'].nil?)
+    raise response['message'].inspect if !response['message'].nil?
 
     set_attributes(response['story'])
     self
@@ -89,6 +89,7 @@ class Pivt::Tasks
     response = HTTParty.delete(@@api_url + "projects/#{Pivt::Auth.project_id}/stories/#{@id}", {:query => query, :headers => headers})
 
     raise response['errors']['error'][0].inspect if(!response['errors'].nil? && !response['errors']['error'].nil?)
+    raise response['message'].inspect if !response['message'].nil?
 
     puts 'deleted task'
   end
