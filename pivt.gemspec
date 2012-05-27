@@ -1,8 +1,8 @@
 # Ensure we require the local version and not one we might have installed already
-require File.join([File.dirname(__FILE__),'lib','pivt.rb'])
+#require File.join([File.dirname(__FILE__),'lib','pivt.rb'])
 spec = Gem::Specification.new do |s| 
   s.name = 'pivt'
-  s.version = Pivt::VERSION
+  s.version = '0.0.1 '#Pivt::VERSION
   s.author = 'Andrew Terris'
   s.email = 'atterris@gmail.com'
   s.homepage = 'http://andrewterris.com'

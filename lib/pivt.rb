@@ -1,5 +1,6 @@
 module Pivt
-  VERSION = '0.0.1'
+  VERSION = '0.2.0'
 end
 
-require 'pivt/project'
+require 'pivt/auth'
+require 'pivt/tasks'

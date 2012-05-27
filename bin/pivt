@@ -13,8 +13,8 @@ end
 $: << File.expand_path(File.dirname(File.realpath(__FILE__)) + '/../lib')
 require 'rubygems'
 require 'gli'
+require 'httparty'
 require 'rainbow'
-require 'pivotal-tracker'
 require 'pivt'
 include GLI
 
@@ -49,7 +49,13 @@ an argument to return different sets of tasks.
 """
 command [:list, :l, :ls] do |c|
   c.action do |global_options,options,args|
-    @project.print_tasks
+    if args[0].nil?
+      Pivt::Tasks.all.each do |task|
+        task.print
+      end
+    else
+      Pivt::Tasks.find(args[0]).print
+    end
   end
 end
 
@@ -71,72 +77,76 @@ command [:new, :n] do |c|
   c.switch [:open, :o, :start, :s]
 
   c.action do |global_options,options,args|
-    @project.create_task(args[0], options)
+    Pivt::Tasks.create({:name => args[0]}.merge(options))
   end
 end
 
 command [:open, :o, :start] do |c|
   c.action do |global_options,options,args|
-    @project.start_task(args[0])
+    task = Pivt::Tasks.find(args[0])
+    task.start
   end
 end
 
 command [:unopen, :u, :unstart] do |c|
   c.action do |global_options,options,args|
-    @project.unstart_task(args[0])
+    task = Pivt::Tasks.find(args[0])
+    task.unstart
   end
 end
 
 command [:close, :c, :finish] do |c|
   c.action do |global_options,options,args|
-    @project.finish_task(args[0])
+    task = Pivt::Tasks.find(args[0])
+    task.finish
   end
 end
 
 command [:ship, :s, :deliver] do |c|
   c.action do |global_options,options,args|
-    @project.deliver_task(args[0])
+    task = Pivt::Tasks.find(args[0])
+    task.deliver
   end
 end
 
 command [:accept, :a] do |c|
   c.action do |global_options,options,args|
-    @project.accept_task(args[0])
+    task = Pivt::Tasks.find(args[0])
+    task.accept
   end
 end
 
 command [:reject, :r] do |c|
   c.action do |global_options,options,args|
-    @project.reject_task(args[0])
+    task = Pivt::Tasks.find(args[0])
+    task.reject
   end
 end
 
 command [:push] do |c|
   c.action do |global_options,options,args|
-    @project.push_task(args[0])
   end
 end
 
 command [:pop] do |c|
   c.action do |global_options,options,args|
-    @project.pop_task(args[0])
   end
 end
 
 command [:move, :m] do |c|
   c.action do |global_options,options,args|
-    @project.move_task(args[0], args[1])
   end
 end
 
 command [:delete, :remove] do |c|
   c.action do |global_options,options,args|
-    @project.delete_task(args[0])
+    task = Pivt::Tasks.find(args[0])
+    task.delete
   end
 end
 
 pre do |global,command,options,args|
-  @project = Pivt::Project.new global[:u], global[:p], global[:project]
+  Pivt::Auth.config({:username => global[:u], :password => global[:p], :project_id => global[:project], :name => 'Andrew Terris'})
   true
 end
 
