@@ -23,5 +23,6 @@ describe Pivt::Tasks do
   it 'can be delivered'
   it 'can be accepeted'
   it 'can be rejectd'
+  it 'can be estimated'
 
 end

@@ -1,6 +1,6 @@
 class Pivt::Tasks
   @@api_url = 'https://www.pivotaltracker.com/services/v3/'
-  attr_accessor :name, :description, :position, :id
+  attr_accessor :name, :description, :position, :id, :pivt_id
   
   def self.all
     query = {:filter => "mywork:#{Pivt::Auth.name}"}
@@ -98,13 +98,18 @@ class Pivt::Tasks
     end
   end
 
-  def move_before id
-  end
+  def move id
+    headers = {'X-TrackerToken' => Pivt::Auth.auth[:token]}
+    params = "moves?move\[move\]=before&move\[target\]=#{self.find(id).id}"
+    puts params
+    response = HTTParty.put(@@api_url + "projects/#{Pivt::Auth.project_id}/stories/#{@id}/#{params}", {:headers => headers})
 
-  def move_after id
-  end
+    raise response['errors']['error'][0].inspect if(!response['errors'].nil? && !response['errors']['error'].nil?)
+    raise response['message'].inspect if !response['message'].nil?
 
-  def move
+    raise response
+    set_attributes(response['story'])
+
   end
 
   def pop
