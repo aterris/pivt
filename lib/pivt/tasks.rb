@@ -1,11 +1,10 @@
 class Pivt::Tasks
-  @@api_url = 'https://www.pivotaltracker.com/services/v3/'
   attr_accessor :name, :description, :position, :id, :pivt_id
   
   def self.all
     query = {:filter => "mywork:#{Pivt::Auth.name}"}
-    headers = {'X-TrackerToken' => Pivt::Auth.auth[:token]}
-    response = HTTParty.get(@@api_url + "projects/#{Pivt::Auth.auth[:project_id]}/stories", {:query => query, :headers => headers})
+    headers = {'X-TrackerToken' => Pivt::Auth.token}
+    response = HTTParty.get(Pivt::Auth.api_url + "projects/#{Pivt::Auth.project_id}/stories", {:query => query, :headers => headers})
 
     raise response['errors']['error'][0].inspect if(!response['errors'].nil? && !response['errors']['error'].nil?)
     raise response['message'].inspect if !response['message'].nil?
@@ -24,7 +23,7 @@ class Pivt::Tasks
   end
 
   def self.create(attributes={})
-    headers = {'X-TrackerToken' => Pivt::Auth.auth[:token], 'Content-Type' => 'application/xml'}
+    headers = {'X-TrackerToken' => Pivt::Auth.token, 'Content-Type' => 'application/xml'}
     body = {
       :story => {
         :name => attributes[:name],
@@ -36,7 +35,7 @@ class Pivt::Tasks
       }
     }
 
-    response = HTTParty.post(@@api_url + "projects/#{Pivt::Auth.project_id}/stories", {:headers => headers, :body => body.pivt_xml})
+    response = HTTParty.post(Pivt::Auth.API_URL + "projects/#{Pivt::Auth.project_id}/stories", {:headers => headers, :body => body.pivt_xml})
 
     raise response['errors']['error'][0].inspect if(!response['errors'].nil? && !response['errors']['error'].nil?)
     raise response['message'].inspect if !response['message'].nil?
@@ -60,9 +59,9 @@ class Pivt::Tasks
   end
 
   def update(attributes={})
-    headers = {'X-TrackerToken' => Pivt::Auth.auth[:token], 'Content-type' => 'application/xml'}
+    headers = {'X-TrackerToken' => Pivt::Auth.token, 'Content-type' => 'application/xml'}
     body = {:story => attributes}
-    response = HTTParty.put(@@api_url + "projects/#{Pivt::Auth.project_id}/stories/#{@id}", {:headers => headers, :body => body.pivt_xml})
+    response = HTTParty.put(Pivt::Auth.API_URL + "projects/#{Pivt::Auth.project_id}/stories/#{@id}", {:headers => headers, :body => body.pivt_xml})
 
     raise response['errors']['error'][0].inspect if(!response['errors'].nil? && !response['errors']['error'].nil?)
     raise response['message'].inspect if !response['message'].nil?
@@ -73,7 +72,7 @@ class Pivt::Tasks
 
   def delete
     headers = {'X-TrackerToken' => Pivt::Auth.token}
-    response = HTTParty.delete(@@api_url + "projects/#{Pivt::Auth.project_id}/stories/#{@id}", {:query => query, :headers => headers})
+    response = HTTParty.delete(Pivt::Auth.API_URL + "projects/#{Pivt::Auth.project_id}/stories/#{@id}", {:query => query, :headers => headers})
 
     raise response['errors']['error'][0].inspect if(!response['errors'].nil? && !response['errors']['error'].nil?)
     raise response['message'].inspect if !response['message'].nil?
@@ -99,15 +98,14 @@ class Pivt::Tasks
   end
 
   def move id
-    headers = {'X-TrackerToken' => Pivt::Auth.auth[:token]}
+    headers = {'X-TrackerToken' => Pivt::Auth.token}
     params = "moves?move\[move\]=before&move\[target\]=#{self.find(id).id}"
     puts params
-    response = HTTParty.put(@@api_url + "projects/#{Pivt::Auth.project_id}/stories/#{@id}/#{params}", {:headers => headers})
+    response = HTTParty.put(Pivt::Auth.API_URL + "projects/#{Pivt::Auth.project_id}/stories/#{@id}/#{params}", {:headers => headers})
 
     raise response['errors']['error'][0].inspect if(!response['errors'].nil? && !response['errors']['error'].nil?)
     raise response['message'].inspect if !response['message'].nil?
 
-    raise response
     set_attributes(response['story'])
 
   end

@@ -1,7 +1,7 @@
 module Pivt::Auth
 
   class << self
-    attr_accessor :token, :name, :project_id, :api_url
+    attr_accessor :token, :name, :project_id
     API_URL = 'https://www.pivotaltracker.com/services/v3/'
 
     def config(options={})
@@ -29,6 +29,10 @@ module Pivt::Auth
       raise 'No Name' if @name.nil?
       raise 'No Project ID' if @project_id.nil?
       raise 'No Token' if @token.nil?
+    end
+
+    def api_url
+      API_URL
     end
   end
 end
