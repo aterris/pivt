@@ -39,7 +39,7 @@ class Pivt::Tasks
     @pivt_id = options[:pivt_id]
   end
 
-  def set_attributes(attributes)
+  def set_attributes(attributes={})
     @id = attributes['id']
     @name = attributes['name']
     @description = attributes['description']
@@ -58,9 +58,7 @@ class Pivt::Tasks
   end
 
   def delete
-    response = Pivt::Client.delete("stories/#{@id}", {:query => query})
-
-    puts 'deleted task'
+    response = Pivt::Client.delete("stories/#{@id}")
   end
 
   def print

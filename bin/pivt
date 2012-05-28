@@ -41,6 +41,11 @@ flag :project
 desc 'Show all tasks'
 switch [:all, :a]
 
+pre do |global,command,options,args|
+  Pivt::Client.config({:username => global[:u], :password => global[:p], :project_id => global[:project], :name => global[:name]})
+  true
+end
+
 desc 'List Pivotal tasks'
 long_desc """
 Lists Pivotal tasks for the current project.  By default it lists
@@ -156,14 +161,6 @@ command [:delete, :remove] do |c|
     task = Pivt::Tasks.find(args[0])
     task.delete
   end
-end
-
-pre do |global,command,options,args|
-  Pivt::Client.config({:username => global[:u], :password => global[:p], :project_id => global[:project], :name => global[:name]})
-  true
-end
-
-post do |global,command,options,args|
 end
 
 on_error do |exception|

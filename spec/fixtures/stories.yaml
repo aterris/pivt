@@ -19,7 +19,7 @@ stories:
     author: Phillip Fry
     noted_at: 2012-05-01 00:29:20.000000000 Z
 - id: 29595409
-  project_id: 523551
+  project_id: 5
   story_type: bug
   url: http://www.pivotaltracker.com/story/show/29595409
   current_state: started
@@ -31,7 +31,7 @@ stories:
   updated_at: 2012-05-15 17:44:48.000000000 Z
   labels: planetexpress
 - id: 30259951
-  project_id: 523551
+  project_id: 5
   story_type: feature
   url: http://www.pivotaltracker.com/story/show/30259951
   estimate: 1
@@ -44,7 +44,7 @@ stories:
   updated_at: 2012-05-28 01:22:27.000000000 Z
   labels: personal
 - id: 27796311
-  project_id: 523551
+  project_id: 5
   story_type: feature
   url: http://www.pivotaltracker.com/story/show/27796311
   estimate: 3
