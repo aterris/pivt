@@ -95,7 +95,7 @@ class Pivt::Tasks
   end
 
   def push
-    # TODO: this needs work
+    # TODO: This needs work for the bottom edge
     move(@pivt_id + 2)
   end
 
