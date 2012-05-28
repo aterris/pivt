@@ -1,0 +1,20 @@
+---
+story:
+- id: 28694861
+  project_id: 5
+  story_type: feature
+  url: http://www.pivotaltracker.com/story/show/28694861
+  estimate: 3
+  current_state: started
+  description: We must kill all humans.
+  name: Kill All Humans!
+  requested_by: Bender Rodriquez
+  owned_by: Bender Rodriquez
+  created_at: 2012-04-26 19:32:32.000000000 Z
+  updated_at: 2012-05-26 03:55:56.000000000 Z
+  labels: personal
+  notes:
+  - id: 21994365
+    text: Even me?
+    author: Phillip Fry
+    noted_at: 2012-05-01 00:29:20.000000000 Z
