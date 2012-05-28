@@ -1,7 +1,7 @@
 require 'spec_helper'
 describe Hash do
 
-  it 'can format xml' do
+  it 'can format pivt xml' do
     hash = {
       :story => {
         :name => 'Cool Name',

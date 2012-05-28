@@ -106,8 +106,29 @@ describe Pivt::Client do
       with(:headers => {'X-TrackerToken' => 'usertoken'}).once
   end
 
-  it 'can merge in authentication options'
-  it 'can merge in xml content options'
-  it 'can validate an API response'
+  it 'can merge in authentication options' do
+    options = {:headers => {'Content-length' => '0'}}
+    options = Pivt::Client.auth_options(options)
+    options[:headers].should == {'Content-length' => '0', 'X-TrackerToken' => 'usertoken'}
+  end
 
+  it 'can merge in xml content options' do
+    options = {:headers => {'Content-length' => '0'}}
+    options = Pivt::Client.xml_options(options)
+    options[:headers].should == {'Content-length' => '0', 'Content-type' => 'application/xml'}
+  end
+
+  it 'can validate an API response' do
+    response = ''
+    lambda {Pivt::Client.validate_response!(response)}.
+      should_not raise_error
+
+    response = {'errors' => {'error' => ['PT Error']}}
+    lambda {Pivt::Client.validate_response!(response)}.
+      should raise_error('PT Error')
+
+    response = {'message' => 'PT Message'}
+    lambda {Pivt::Client.validate_response!(response)}.
+      should raise_error('PT Message')
+  end
 end

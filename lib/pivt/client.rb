@@ -62,16 +62,18 @@ module Pivt::Client
       raise 'No Token' if @token.nil?
       options[:headers] ||= {}
       options[:headers].merge!({'X-TrackerToken' => @token})
+      options
     end
 
     def xml_options(options)
       options[:headers] ||= {}
       options[:headers].merge!({'Content-type' => 'application/xml'})
+      options
     end
 
     def validate_response!(response)
-      raise response['errors']['error'][0].inspect if(!response['errors'].nil? && !response['errors']['error'].nil?)
-      raise response['message'].inspect if !response['message'].nil?
+      raise response['errors']['error'][0] if(!response['errors'].nil? && !response['errors']['error'].nil?)
+      raise response['message'] if !response['message'].nil?
       response
     end
 
