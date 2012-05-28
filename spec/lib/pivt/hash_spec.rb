@@ -8,7 +8,8 @@ describe Hash do
         :description => 'Cool Description'
       }
   	}
-    hash.pivt_xml.should == '<story><name>Cool Name</name><description>Cool Description</description></story>'
+    xml = '<story><name>Cool Name</name><description>Cool Description</description></story>'
+    hash.pivt_xml.should == xml
   end
 
 end
