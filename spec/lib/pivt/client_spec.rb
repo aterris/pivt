@@ -5,21 +5,6 @@ describe Pivt::Client do
   	stub_request(:get, "https://atterris%40gmail.com:pwd@www.pivotaltracker.com/services/v3/tokens/active").
       to_return(:body => {'token'=> {'guid' => 'usertoken'}}.to_json, :headers => {'Content-Type' => 'application/json'})
 
-    stub_request(:get, "https://www.pivotaltracker.com/services/v3/projects/5/stories?filter=mywork:Andrew%20Terris").
-      with(:headers => {'X-Trackertoken'=>'usertoken'}).
-      to_return(:headers => {'Content-Type' => 'application/json'}, :body => {:stories => [{
-        :id => '123',
-        :name => 'Test Task',
-        :description => 'Test task description',
-        :current_state => 'started'
-        },
-        {
-        :id => '234',
-        :name => 'Test Task 2',
-        :description => 'Another test task description',
-        :current_state => 'unstarted'
-        }]}.to_json)
-
     Pivt::Client.config({:token => 'usertoken', :name => 'Andrew Terris', :project_id => '5'})
   end
 

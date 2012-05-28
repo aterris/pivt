@@ -1,5 +1,5 @@
 class Pivt::Tasks
-  attr_accessor :name, :description, :position, :id, :pivt_id
+  attr_accessor :name, :description, :position, :id, :pivt_id, :current_state
   
   def self.all
     query = {:filter => "mywork:#{Pivt::Client.name}"}
