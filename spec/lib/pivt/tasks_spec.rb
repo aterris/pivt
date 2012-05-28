@@ -17,7 +17,12 @@ describe Pivt::Tasks do
   it 'can be popped'
   it 'can be pushed'
 
-  it 'can be started'
+  it 'can be started' do
+    task = Pivt::Tasks.find(args[0])
+    task.current_status.should == 'unstarted'
+    task.start
+    task.current_status.should == 'started'
+  end
   it 'can be unstarted'
   it 'can be finished'
   it 'can be delivered'

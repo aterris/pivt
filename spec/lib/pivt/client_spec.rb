@@ -79,29 +79,33 @@ describe Pivt::Client do
   end
 
   it 'can make a GET API request' do
-    query = {:filter => "mywork:#{Pivt::Client.name}"}
-    Pivt::Client.get("projects/5/stories", {:query => query})
-    WebMock.should have_requested(:get, "https://www.pivotaltracker.com/services/v3/projects/5/stories?filter=mywork:Andrew%20Terris").
+    stub_request(:get, "https://www.pivotaltracker.com/services/v3/get")
+    Pivt::Client.get("get")
+    WebMock.should have_requested(:get, "https://www.pivotaltracker.com/services/v3/get").
       with(:headers => {'X-TrackerToken' => 'usertoken'}).once
   end
 
   it 'can make a POST API request' do
-    body = {
-      :story => {
-        :name => 'Fake Name',
-        :description => 'Fake Description'
-      }
-    }.pivt_xml
-
-    response = Pivt::Client.post("projects/#{Pivt::Client.project_id}/stories", {:body => body})
-    WebMock.should have_requested(:post, "https://www.pivotaltracker.com/services/v3/projects/5/stories?filter=mywork:Andrew%20Terris").
-      with(:headers => {'X-TrackerToken' => 'usertoken'}, :body => 'boom').once
-
-
+    stub_request(:post, "https://www.pivotaltracker.com/services/v3/post")
+    Pivt::Client.post("post")
+    WebMock.should have_requested(:post, "https://www.pivotaltracker.com/services/v3/post").
+      with(:headers => {'Content-Type'=>'application/xml', 'X-TrackerToken' => 'usertoken'}).once
   end
 
-  it 'can make a PUT API request'
-  it 'can make a DELETE API request'
+  it 'can make a PUT API request' do
+    stub_request(:put, "https://www.pivotaltracker.com/services/v3/put")
+    Pivt::Client.put("put")
+    WebMock.should have_requested(:put, "https://www.pivotaltracker.com/services/v3/put").
+      with(:headers => {'Content-Type'=>'application/xml', 'X-TrackerToken' => 'usertoken'}).once
+  end
+
+  it 'can make a DELETE API request' do
+    stub_request(:delete, "https://www.pivotaltracker.com/services/v3/delete")
+    Pivt::Client.delete("delete")
+    WebMock.should have_requested(:delete, "https://www.pivotaltracker.com/services/v3/delete").
+      with(:headers => {'X-TrackerToken' => 'usertoken'}).once
+  end
+
   it 'can merge in authentication options'
   it 'can merge in xml content options'
   it 'can validate an API response'
