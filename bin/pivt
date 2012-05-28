@@ -56,10 +56,10 @@ command [:list, :l, :ls] do |c|
   c.action do |global_options,options,args|
     if args[0].nil?
       Pivt::Tasks.all.each do |task|
-        task.print
+        puts task.format unless task.current_state == 'unscheduled'
       end
     else
-      Pivt::Tasks.find(args[0]).print
+      puts Pivt::Tasks.find(args[0]).format
     end
   end
 end

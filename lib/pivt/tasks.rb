@@ -24,7 +24,7 @@ class Pivt::Tasks
         :name => attributes[:name],
         :description => attributes[:description],
         :estimate => attributes[:estimate],
-        :story_type => attributes[:type],
+        :story_type => attributes[:type] || 'feature',
         :current_state => ( attributes[:open] ? 'started' : 'unstarted' ),
         :owned_by => Pivt::Client.name
       }
@@ -61,21 +61,24 @@ class Pivt::Tasks
     response = Pivt::Client.delete("stories/#{@id}")
   end
 
-  def print
-    case @current_state
-    when 'started'
-      puts "\n"
-      puts "  #{@pivt_id}. #{@name}".color(:green)
+  def format
+    string = ''
+    if @current_state == 'started'
+      string += ("\n" + "  #{@pivt_id}. #{@name}".color(:green) + "\n")
+
       unless @description.nil?
-        @description.scan(/.{72}/).each do |output|
-          puts "      " + output
+        if @description.length < 72
+          string += ("      " + @description + "\n")
+        else
+          @description.scan(/.{72}/).each do |output|
+            string += ("      " + output + "\n")
+          end
         end
       end
-      puts "\n"
-    when 'unstarted'
-      puts "  #{@pivt_id}. #{@name}"
-      puts "\n"
+    elsif @current_state == 'unstarted'
+      string += "  #{@pivt_id}. #{@name}\n"
     end
+    string
   end
 
   def move id
