@@ -23,6 +23,8 @@ version Pivt::VERSION
 
 config_file File.join(ENV['HOME'],'.pivt.rc.yaml')
 
+default_command :list
+
 desc 'Username'
 flag [:u,:username]
 
