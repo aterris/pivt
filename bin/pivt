@@ -159,7 +159,7 @@ command [:delete, :remove] do |c|
 end
 
 pre do |global,command,options,args|
-  Pivt::Client.config({:username => global[:u], :password => global[:p], :project_id => global[:project], :name => 'Andrew Terris'})
+  Pivt::Client.config({:username => global[:u], :password => global[:p], :project_id => global[:project], :name => global[:name]})
   true
 end
 
