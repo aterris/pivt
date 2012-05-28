@@ -1,5 +1,5 @@
 require 'spec_helper'
-describe Pivt::Auth do
+describe Pivt::Client do
 
   before(:each) do
   	stub_request(:get, "https://atterris%40gmail.com:pwd@www.pivotaltracker.com/services/v3/tokens/active").
@@ -22,29 +22,29 @@ describe Pivt::Auth do
   end
 
   it 'can return authentication details' do
-    Pivt::Auth.config({:token => 'usertoken', :name => 'Andrew Terris', :project_id => '5'})
-    Pivt::Auth.token.should == 'usertoken'
-    Pivt::Auth.name.should == 'Andrew Terris'
-    Pivt::Auth.project_id.should == '5'
+    Pivt::Client.config({:token => 'usertoken', :name => 'Andrew Terris', :project_id => '5'})
+    Pivt::Client.token.should == 'usertoken'
+    Pivt::Client.name.should == 'Andrew Terris'
+    Pivt::Client.project_id.should == '5'
   end
 
   it 'can generate a token when given username and password' do
-    Pivt::Auth.config({:username => 'atterris@gmail.com', :password => 'pwd', :name => 'Andrew Terris', :project_id => '5'})
-    Pivt::Auth.token.should == 'usertoken'
+    Pivt::Client.config({:username => 'atterris@gmail.com', :password => 'pwd', :name => 'Andrew Terris', :project_id => '5'})
+    Pivt::Client.token.should == 'usertoken'
   end
   
   it 'requires a name' do
-    lambda {Pivt::Auth.config({:token => 'usertoken', :project_id => '5'})}.
+    lambda {Pivt::Client.config({:token => 'usertoken', :project_id => '5'})}.
       should raise_error('No Name')
   end
 
   it 'requires a project id' do
-    lambda {Pivt::Auth.config({:token => 'usertoken', :name => 'Andrew Terris'})}.
+    lambda {Pivt::Client.config({:token => 'usertoken', :name => 'Andrew Terris'})}.
       should raise_error('No Project ID')
   end
 
   it 'requires a token' do
-    lambda {Pivt::Auth.config({:name => 'Andrew Terris', :project_id => '5'})}.
+    lambda {Pivt::Client.config({:name => 'Andrew Terris', :project_id => '5'})}.
       should raise_error('No Token')
   end
 

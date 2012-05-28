@@ -3,5 +3,5 @@ module Pivt
 end
 
 require 'pivt/hash'
-require 'pivt/auth'
+require 'pivt/client'
 require 'pivt/tasks'
