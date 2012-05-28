@@ -48,4 +48,14 @@ describe Pivt::Client do
       should raise_error('No Token')
   end
 
+  it 'can fetch a token'
+  it 'can determine if we have complete authentication info'
+  it 'can make a GET API request'
+  it 'can make a POST API request'
+  it 'can make a PUT API request'
+  it 'can make a DELETE API request'
+  it 'can merge in authentication options'
+  it 'can merge in xml content options'
+  it 'can validate an API response'
+
 end
