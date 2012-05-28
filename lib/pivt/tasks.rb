@@ -28,9 +28,9 @@ class Pivt::Tasks
         :current_state => ( attributes[:open] ? 'started' : 'unstarted' ),
         :owned_by => Pivt::Client.name
       }
-    }
+    }.pivt_xml
 
-    response = Pivt::Client.post("projects/#{Pivt::Client.project_id}/stories", {:body => body.pivt_xml})
+    response = Pivt::Client.post("projects/#{Pivt::Client.project_id}/stories", {:body => body})
     self.new(response['story'])
   end
 
@@ -50,8 +50,8 @@ class Pivt::Tasks
   end
 
   def update(attributes={})
-    body = {:story => attributes}
-    response = Pivt::Client.put("projects/#{Pivt::Client.project_id}/stories/#{@id}", {:body => body.pivt_xml})
+    body = {:story => attributes}.pivt_xml
+    response = Pivt::Client.put("projects/#{Pivt::Client.project_id}/stories/#{@id}", {:body => body})
 
     set_attributes(response['story'])
     self
@@ -83,7 +83,7 @@ class Pivt::Tasks
   def move id
     params = "moves?move\[move\]=before&move\[target\]=#{Pivt::Tasks.find(id).id}"
     headers = {'Content-length' => '0'}
-    response = Pivt::Client.put("projects/#{Pivt::Client.project_id}/stories/#{@id}/#{params}", {:headers => headers})
+    response = Pivt::Client.post("projects/#{Pivt::Client.project_id}/stories/#{@id}/#{params}", {:headers => headers})
 
     set_attributes(response['story'])
   end
@@ -95,8 +95,8 @@ class Pivt::Tasks
   end
 
   def push
-    # TODO: this should handle the edge better
-    move(@pivt_id + 1)
+    # TODO: this needs work
+    move(@pivt_id + 2)
   end
 
   def estimate(score)
