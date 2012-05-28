@@ -59,6 +59,7 @@ module Pivt::Client
     end
 
     def auth_options(options)
+      raise 'No Token' if @token.nil?
       options[:headers] ||= {}
       options[:headers].merge!({'X-TrackerToken' => @token})
     end
