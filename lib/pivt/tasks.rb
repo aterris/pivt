@@ -81,18 +81,26 @@ class Pivt::Tasks
   end
 
   def move id
-    params = "moves?move\[move\]=before&move\[target\]=#{self.find(id).id}"
-    puts params
-    response = Pivt::Client.put("projects/#{Pivt::Client.project_id}/stories/#{@id}/#{params}")
+    params = "moves?move\[move\]=before&move\[target\]=#{Pivt::Tasks.find(id).id}"
+    headers = {'Content-length' => '0'}
+    response = Pivt::Client.put("projects/#{Pivt::Client.project_id}/stories/#{@id}/#{params}", {:headers => headers})
 
     set_attributes(response['story'])
-
   end
 
   def pop
+    if @pivt_id != 0
+      move(@pivt_id - 1)
+    end
   end
 
   def push
+    # TODO: this should handle the edge better
+    move(@pivt_id + 1)
+  end
+
+  def estimate(score)
+    update(:estimate => score)
   end
 
   def start
@@ -117,10 +125,6 @@ class Pivt::Tasks
 
   def reject
     update(:current_state => 'rejected')
-  end
-
-  def estimate score
-    update(:estimate => score)
   end
 
   def meta

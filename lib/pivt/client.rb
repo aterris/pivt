@@ -47,8 +47,9 @@ module Pivt::Client
 
     def put(endpoint, options={})
       auth_options(options)
-      xml_options(options)
+      #xml_options(options)
       response = HTTParty.put(API_URL + endpoint, options)
+      raise response.inspect
       validate_response!(response)
     end
 
