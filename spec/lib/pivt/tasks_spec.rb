@@ -18,7 +18,7 @@ describe Pivt::Tasks do
   it 'can be pushed'
 
   it 'can be started' do
-    task = Pivt::Tasks.find(args[0])
+    task = Pivt::Tasks.find(0)
     task.current_status.should == 'unstarted'
     task.start
     task.current_status.should == 'started'

@@ -1,9 +1,6 @@
 require 'spec_helper'
 describe Hash do
 
-  before(:each) do
-  end
-
   it 'can format xml' do
     hash = {
       :story => {
