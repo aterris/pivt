@@ -3,7 +3,7 @@ class Pivt::Tasks
   
   def self.all
     query = {:filter => "mywork:#{Pivt::Client.name}"}
-    response = Pivt::Client.get("projects/#{Pivt::Client.project_id}/stories", {:query => query})
+    response = Pivt::Client.get("stories", {:query => query})
 
     @tasks = []
     stories = response['stories'] || []
@@ -30,7 +30,7 @@ class Pivt::Tasks
       }
     }.pivt_xml
 
-    response = Pivt::Client.post("projects/#{Pivt::Client.project_id}/stories", {:body => body})
+    response = Pivt::Client.post("stories", {:body => body})
     self.new(response['story'])
   end
 
@@ -51,14 +51,14 @@ class Pivt::Tasks
 
   def update(attributes={})
     body = {:story => attributes}.pivt_xml
-    response = Pivt::Client.put("projects/#{Pivt::Client.project_id}/stories/#{@id}", {:body => body})
+    response = Pivt::Client.put("stories/#{@id}", {:body => body})
 
     set_attributes(response['story'])
     self
   end
 
   def delete
-    response = Pivt::Client.delete("projects/#{Pivt::Client.project_id}/stories/#{@id}", {:query => query})
+    response = Pivt::Client.delete("stories/#{@id}", {:query => query})
 
     puts 'deleted task'
   end
@@ -83,7 +83,7 @@ class Pivt::Tasks
   def move id
     params = "moves?move\[move\]=before&move\[target\]=#{Pivt::Tasks.find(id).id}"
     headers = {'Content-length' => '0'}
-    response = Pivt::Client.post("projects/#{Pivt::Client.project_id}/stories/#{@id}/#{params}", {:headers => headers})
+    response = Pivt::Client.post("stories/#{@id}/#{params}", {:headers => headers})
 
     set_attributes(response['story'])
   end

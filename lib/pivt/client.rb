@@ -34,27 +34,27 @@ module Pivt::Client
 
     def get(endpoint, options={})
       auth_options(options)
-      response = HTTParty.get(API_URL + endpoint, options)
+      response = HTTParty.get(API_URL + "projects/#{@project_id}/" + endpoint, options)
       validate_response!(response)
     end
 
     def post(endpoint, options={})
       auth_options(options)
       xml_options(options)
-      response = HTTParty.post(API_URL + endpoint, options)
+      response = HTTParty.post(API_URL + "projects/#{@project_id}/" + endpoint, options)
       validate_response!(response)
     end
 
     def put(endpoint, options={})
       auth_options(options)
       xml_options(options)
-      response = HTTParty.put(API_URL + endpoint, options)
+      response = HTTParty.put(API_URL + "projects/#{@project_id}/" + endpoint, options)
       validate_response!(response)
     end
 
     def delete(endpoint, options={})
       auth_options(options)
-      response = HTTParty.delete(API_URL + endpoint, options)
+      response = HTTParty.delete(API_URL + "projects/#{@project_id}/" + endpoint, options)
       validate_response!(response)
     end
 

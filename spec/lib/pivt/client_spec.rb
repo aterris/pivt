@@ -79,30 +79,30 @@ describe Pivt::Client do
   end
 
   it 'can make a GET API request' do
-    stub_request(:get, "https://www.pivotaltracker.com/services/v3/get")
+    stub_request(:get, "https://www.pivotaltracker.com/services/v3/projects/5/get")
     Pivt::Client.get("get")
-    WebMock.should have_requested(:get, "https://www.pivotaltracker.com/services/v3/get").
+    WebMock.should have_requested(:get, "https://www.pivotaltracker.com/services/v3/projects/5/get").
       with(:headers => {'X-TrackerToken' => 'usertoken'}).once
   end
 
   it 'can make a POST API request' do
-    stub_request(:post, "https://www.pivotaltracker.com/services/v3/post")
+    stub_request(:post, "https://www.pivotaltracker.com/services/v3/projects/5/post")
     Pivt::Client.post("post")
-    WebMock.should have_requested(:post, "https://www.pivotaltracker.com/services/v3/post").
+    WebMock.should have_requested(:post, "https://www.pivotaltracker.com/services/v3/projects/5/post").
       with(:headers => {'Content-Type'=>'application/xml', 'X-TrackerToken' => 'usertoken'}).once
   end
 
   it 'can make a PUT API request' do
-    stub_request(:put, "https://www.pivotaltracker.com/services/v3/put")
+    stub_request(:put, "https://www.pivotaltracker.com/services/v3/projects/5/put")
     Pivt::Client.put("put")
-    WebMock.should have_requested(:put, "https://www.pivotaltracker.com/services/v3/put").
+    WebMock.should have_requested(:put, "https://www.pivotaltracker.com/services/v3/projects/5/put").
       with(:headers => {'Content-Type'=>'application/xml', 'X-TrackerToken' => 'usertoken'}).once
   end
 
   it 'can make a DELETE API request' do
-    stub_request(:delete, "https://www.pivotaltracker.com/services/v3/delete")
+    stub_request(:delete, "https://www.pivotaltracker.com/services/v3/projects/5/delete")
     Pivt::Client.delete("delete")
-    WebMock.should have_requested(:delete, "https://www.pivotaltracker.com/services/v3/delete").
+    WebMock.should have_requested(:delete, "https://www.pivotaltracker.com/services/v3/projects/5/delete").
       with(:headers => {'X-TrackerToken' => 'usertoken'}).once
   end
 
